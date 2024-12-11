@@ -1,0 +1,11 @@
+package: api
+generate:
+  strict-server: true
+  chi-server: true
+  models: true
+  embedded-spec: true
+compatibility:
+  always-prefix-enum-values: true
+output: server.gen.go
+output-options:
+  skip-prune: true

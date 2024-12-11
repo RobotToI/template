@@ -1,0 +1,100 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Template Service
+servers:
+  - url: http://localhost
+paths:
+  /ping:
+    get:
+      summary: Проверка жизни сервиса
+      security:
+        - Bearer: []
+      tags:
+        - Service
+      operationId: ping
+      responses:
+        "200":
+          $ref: "#/components/responses/PingResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+components:
+  securitySchemes:
+    Bearer:
+      in: header
+      name: Authorization
+      type: apiKey
+
+  responses:
+    PingResponse:
+      description: Success ping
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              data:
+                type: string
+                example: "ok"
+
+    NotFound:
+      description: Объект не найден
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: Ошибка авторизации
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    BadRequest:
+      description: Ошибка в запросе
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    TemporaryRedirect:
+      description: Temporary Redirect
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    InternalError:
+      description: Внутренняя ошибка
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Success:
+      description: Успешный результат
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Success"
+
+  schemas:
+    Success:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message

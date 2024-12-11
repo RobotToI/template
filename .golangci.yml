@@ -1,0 +1,80 @@
+run:
+  timeout: 5m
+  output:
+    format: tab
+  exclude-dirs:
+    - vendor
+
+linters-settings:
+  dupl:
+    threshold: 200
+  govet:
+    shadowing: true
+  maligned:
+    suggest-new: true
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  misspell:
+    locale: US
+  lll:
+    line-length: 140
+  gocritic:
+    enabled-tags:
+      - performance
+      - style
+      - experimental
+    disabled-checks:
+      - wrapperFunc
+      # TODO: feel free to remove these excludes and fix the code
+      - hugeParam
+      - rangeValCopy
+
+linters:
+  enable:
+    - bodyclose
+    - gosimple
+    - staticcheck
+    - revive
+    - govet
+    - unconvert
+    - gosec
+    - gocyclo
+    - misspell
+    - unparam
+    - unused
+    - typecheck
+    - ineffassign
+    - stylecheck
+    - gochecknoinits
+    - copyloopvar
+    - gocritic
+    - nakedret
+    - gosimple
+    - prealloc
+  fast: false
+  disable-all: true
+
+issues:
+  exclude-rules:
+    - text: "at least one file in a package should have a package comment"
+      linters:
+        - stylecheck
+    - text: "package-comments: should have a package comment"
+      linters:
+        - revive
+    - text: "exported: type name will be used as"
+      linters:
+        - revive
+    # TODO: Remove this two below after clear loggging in Repository.
+    - text: "unused-parameter: parameter 'ctx' seems"
+      linters:
+        - revive
+    - text: "G104: Errors unhandled."
+      linters:
+        - gosec
+    - path: _test\.go
+      linters:
+        - gosec
+        - dupl
+  exclude-use-default: false

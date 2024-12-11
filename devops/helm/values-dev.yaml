@@ -1,0 +1,20 @@
+base-chart:
+  valuesLocal:
+    ingressDnsSuffixNew: k8s-3687ee20.x5m-dev-3.salt.x5.ru
+
+  ingresses:
+    http:
+      hosts:
+        "{{ $.Release.Namespace }}.{{ $.Values.valuesLocal.ingressDnsSuffixNew }}":
+          paths:
+            /api/template:
+              serviceFullName: "{{ $.Release.Name }}"
+              servicePort: 8080
+
+  deployments:
+    app:
+      containers:
+        app:
+          env:
+            ## Переменная для отладки. В будущем будет убрана.
+            POSTGRES_URI: postgresql://postgres:NIcCsIQO53@postgres-14:5432/template?sslmode=disable

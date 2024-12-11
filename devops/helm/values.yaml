@@ -1,0 +1,42 @@
+base-chart:
+  generic:
+    extraImagePullSecrets:
+      - name: dockey
+    serviceAccountName: "{{ $.Release.Name }}"
+
+  serviceAccount:
+    "{{ $.Release.Name }}":
+      labels: {}
+
+  services:
+    app:
+      fullNameOverride: "{{ $.Release.Name }}"
+      type: ClusterIP
+      extraSelectorLabels:
+        service: app
+      ports:
+        http:
+          port: 8080
+          targetPort: http
+
+  deployments:
+    app:
+      extraSelectorLabels:
+        service: app
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+      containers:
+        app:
+          ports:
+            http:
+              containerPort: 8080
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 200Mi
+            requests:
+              cpu: 200m
+              memory: 100Mi

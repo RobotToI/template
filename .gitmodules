@@ -1,0 +1,4 @@
+[submodule "devops/helm/charts/base-chart"]
+	path = devops/helm/charts/base-chart
+	url = ../../infra/charts/base-chart
+	branch = v2024.02.21

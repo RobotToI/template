@@ -1,0 +1,8 @@
+include:
+  - project: x5m/go-backend/boilerplates/gitlab-ci
+    ref: main
+    file: ci.yml
+
+deploy:dev:
+  rules:
+    - when: never
